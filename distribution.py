@@ -1,9 +1,12 @@
 import math
 import numpy as np
 import pyglet
+from pyglet import gl
+from pyglet.image import ColorBufferImage
 from pyglet.window import key
 
-
+# Change color buffer for single frame app
+ColorBufferImage.gl_buffer = gl.GL_FRONT
 FRAME_SIZE = 250
 PADDING = 100
 COLS = 2
@@ -106,6 +109,7 @@ def random_repeat_box_sample():
 
 @window.event
 def on_draw():
+    pyglet.gl.glClearColor(0, 0, 0, 1)
     window.clear()
     batch.draw()
 
