@@ -7,14 +7,14 @@ from pyglet.window import key
 
 # Change color buffer for single frame app
 ColorBufferImage.gl_buffer = gl.GL_FRONT
-FRAME_SIZE = 250
-PADDING = 100
+FRAME_SIZE = 300
+PADDING = 50
 COLS = 2
 ROWS = 2
 WIDTH = COLS * (2 * PADDING + FRAME_SIZE)
 HEIGHT = ROWS * (2 * PADDING + FRAME_SIZE)
 MAX_R = 100
-SAMPLES = 2000
+SAMPLES = 1500
 
 
 rng = np.random.default_rng()
@@ -30,7 +30,7 @@ class Experiment:
         xs = xs + x + PADDING
         ys = ys + y + PADDING
         self.label = pyglet.text.Label(
-            name + f" | n={n}", x=x+(PADDING+FRAME_SIZE//2), y=y+PADDING//2,
+            name + f" [n = {n}]", x=x+(PADDING+FRAME_SIZE//2), y=y+PADDING//2,
             bold=True, anchor_x='center', batch=batch
         )
 
