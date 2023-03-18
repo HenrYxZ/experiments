@@ -2,6 +2,7 @@
 
 Repository with small experiments
 
+
 ## Random Distribution (distribution.py)
 
 Shows the different random distributions for a circle depending on the method
@@ -21,3 +22,14 @@ dependencies:
 To run the script:
 
 `$ python distribution.py`
+
+
+## (WIP) NRT Numba Ray Tracer (nrt.py)
+
+Compares the speed in a simple raytracer between regular Python and Numba.
+
+Regular python takes: 1.777 seconds
+
+Numba takes:
+
+![raytracer screenshot](docs/nrt_output.png)
