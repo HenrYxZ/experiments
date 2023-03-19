@@ -33,7 +33,7 @@ LIGHT_DIR = utils.normalize(np.array([-0.3, 1.0, -0.5]))
 rng = np.random.default_rng()
 
 
-@njit
+#@njit
 def project_pixel(sx, sy, n0, n1, h, w, pixel_coords, p00):
     """
     Get the projection point for a given screen pixel
@@ -57,7 +57,7 @@ def project_pixel(sx, sy, n0, n1, h, w, pixel_coords, p00):
     return pp
 
 
-@njit
+#@njit
 def intersect(pp, nr, pos, radius) -> float:
     diff = pp - pos
     b = np.dot(nr, diff)
@@ -69,7 +69,7 @@ def intersect(pp, nr, pos, radius) -> float:
     return t
 
 
-@njit(fastmath=True)
+#@njit(fastmath=True)
 def render(arr, sx, sy, proj_dist, cam_pos, cam_coords, radius):
     h, w, _ = arr.shape
     n0, n1, n2 = cam_coords
@@ -81,8 +81,8 @@ def render(arr, sx, sy, proj_dist, cam_pos, cam_coords, radius):
                 for m in range(AA_H_SAMPLES):
                     offsets = rng.random(2)
                     pixel_coords = (
-                        i + (m + offsets[0]) / float(AA_H_SAMPLES),
-                        j + (n + offsets[1]) / float(AA_V_SAMPLES)
+                        i + (m + offsets[0]) / AA_H_SAMPLES,
+                        j + (n + offsets[1]) / AA_V_SAMPLES
                     )
                     # Project pixel to point in 3D coordinates
                     pp = project_pixel(
@@ -98,10 +98,12 @@ def render(arr, sx, sy, proj_dist, cam_pos, cam_coords, radius):
                         color += np.maximum(np.dot(n, LIGHT_DIR) * MAT_COL, C0)
                     else:
                         color += BG_COLOR
-            color /= AA_SAMPLES
+            color = color / AA_SAMPLES
             final_color = np.empty_like(color)
             np.round(color * 255, 0, final_color)
-            arr[j, i] = final_color
+            arr[j, i, 0] = int(final_color[0])
+            arr[j, i, 1] = int(final_color[1])
+            arr[j, i, 2] = int(final_color[2])
 
 
 def main():
@@ -112,8 +114,9 @@ def main():
     with timer:
         render(arr, SX, SY, PROJ_DIST, CAM_POS, CAM_COORDS, RADIUS)
     img = Image.fromarray(arr)
-    img.save("docs/nrt_output.png")
-    print("Finished rendering")
+    img_path = "docs/nrt_output.png"
+    img.save(img_path)
+    print(f"Finished rendering and saved image in {img_path}")
 
 
 if __name__ == '__main__':
