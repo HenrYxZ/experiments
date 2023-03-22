@@ -24,12 +24,17 @@ To run the script:
 `$ python distribution.py`
 
 
-## (WIP) NRT Numba Ray Tracer (nrt.py)
+## NRT Numba Ray Tracer (nrt.py)
 
 Compares the speed in a simple raytracer between regular Python and Numba.
 
-Regular python takes: 1.777 seconds
+Regular python takes: 268 seconds
 
-Numba takes:
+Numba takes: 17 seconds
+
+That's 15x speed up!
 
 ![raytracer screenshot](docs/nrt_output.png)
+
+The image is 1400x1050 with 9 samples per pixel. Ran in a single thread in
+a Ryzen 9 4900HS CPU.
